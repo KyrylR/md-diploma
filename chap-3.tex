@@ -1,0 +1,54 @@
+\chapter{Приклади лістингів}
+
+У цьому розділі наведено приклади лістингів. Вони наведені суто для прикладу включення таких елементів. 
+
+Перший лістинг.
+
+\lstset{caption={Попередня обробка даних}}
+\begin{lstlisting}
+#Last column is garbage, so we drop it:
+dataset.drop(5409, axis=1, inplace=True)
+#Transform our data from string to numbers or Nan:
+dataset.iloc[:,:-1] = dataset.iloc[:,:-1].apply(pd.to_numeric, errors='coerce')
+#Drop Nan values:
+dataset.dropna(inplace=True)
+#Change our output to numerical: 'inactive' --> 0 and 'active' --> 1:
+dataset.replace({'inactive': 0, 'active': 1}, inplace=True)
+\end{lstlisting}
+ 
+Тепер другий лістинг.
+\lstset{caption={Підготовка необхідних елементів для аналізу}}
+\begin{lstlisting}
+#Output column extraction:
+test = pd.DataFrame(dataset[5408])
+
+#Computation of correlation of the input columns with output column:
+corr_with_res = []
+
+for i in range(5408):
+corr_with_res.append((test.join(dataset[i])).astype(float).corr()[5408][i])
+
+whole_corr = pd.DataFrame(corr_with_res)
+
+#Collecting "active" rows:
+active = dataset[dataset[5408] == 1]
+\end{lstlisting}
+
+І, нарешті, третій. 
+
+\lstset{caption={Функція для здійснення аналізу}}
+\begin{lstlisting}
+def corr_mean(alpha = 0, beta = 0.4, drop = pd.Index([])):
+signif_col = (whole_corr[whole_corr[0].abs() > alpha].index &\\
+whole_corr[whole_corr[0].abs() \\
+< beta].index).difference(drop)
+active_signif = active[signif_col]
+active_signif_corr = active_signif.T.astype(float).corr()
+mean = 0
+
+for i in range(len(active_signif_corr) - 1):
+sum_row_corr = active_signif_corr.iloc[i:i+1,i+1:].T.abs().sum().values[0]
+mean += sum_row_corr
+mean = mean/(((len(active_signif_corr) - 1)*len(active_signif_corr))/2)
+return mean, signif_col
+\end{lstlisting}
