@@ -119,10 +119,12 @@
     labelsep=1em,    % Adjust space after bullet
     itemindent=0pt,    % No hanging indent for item text (usually desired)
     labelindent=0pt,    % Bullet starts at the leftmargin
-    % listparindent=\parindent % Indent paragraphs within items like normal text
+% listparindent=\parindent % Indent paragraphs within items like normal text
     label=\raisebox{-0.1ex}{\scalebox{1.2}{\textbf{\textbullet}}}
 }
 
+% --- Keep the original \chapter and \@chapter definitions ---
+% --- as they handle numbering/ToC correctly ---
 \renewcommand\chapter{%
     \if@openright\clearpage\else\clearpage\fi
     \thispagestyle{plain}% Page style for chapter start page
@@ -135,6 +137,7 @@
                         \if@mainmatter
                         \refstepcounter{chapter}%
                         \typeout{\@chapapp\space\thechapter.}%
+                        % This line adds the NUMBERED entry to ToC
                         \addcontentsline{toc}{chapter}%
                         {\protect\numberline{\thechapter}#2}%
 \else
@@ -149,79 +152,78 @@
 \if@twocolumn
 \@topnewpage[\@makechapterhead{#2}]%
 \else
-\@makechapterhead{#2}%
+\@makechapterhead{#2}% % Calls the MODIFIED version below
 \@afterheading % Hook for things after heading
 \fi}
 
+% --- MODIFIED definition for NUMBERED chapter headings ---
+% --- Removes "Chapter X", centers title, uses Large/Bold ---
 \def\@makechapterhead#1{%
-    \vspace*{15\p@}% Space before chapter head
-    {\parindent\z@ \raggedright \normalfont % No indent, ragged right
-        \ifnum
-            \c@secnumdepth >\m@ne
-            \if@mainmatter % Only for main matter chapters
-            \hspace*{\myindent}% Indent chapter number line
-            \huge\bfseries \@chapapp\space \thechapter % Chapter number
-            \par\nobreak
-            \vskip 10\p@ % Space between number and title
-        \fi
-        \fi
-        \interlinepenalty\@M % Prevent page break within head
-        \hspace*{18pt}% Indent chapter title line (adjust as needed)
-        \huge \bfseries \parbox{0.9\textwidth}{\raggedright % Adjust width if needed
-        #1}\par\nobreak % Chapter title
-        \vskip 15\p@ % Space after chapter head
-    }}
+    \vspace*{50pt} % Space before the chapter title (adjust as needed)
+    {%
+        \parindent \z@ % Ensure no indentation for the heading block
+        \centering     % Center the title
+        \normalfont    % Reset font settings
+        \Large         % Set font size to Large
+        \bfseries      % Set font weight to bold
+        #1\par         % Print ONLY the chapter title (#1) and end the paragraph
+        \nobreak       % Prevent a page break immediately after the title
+        \vspace*{40pt} % Space after the chapter title (adjust as needed)
+    }
+}
 
+% --- Keep the original \@schapter definition ---
 % For unnumbered chapters (like Bibliography)
 \def\@schapter#1{\if@twocolumn
 \@topnewpage[\@makeschapterhead{#1}]%
 \else
-\@makeschapterhead{#1}%
+\@makeschapterhead{#1}% % Calls the MODIFIED version below
 \@afterheading
 \fi}
 
+% --- MODIFIED definition for STARRED chapter headings ---
+% --- Makes it visually identical to the modified \@makechapterhead ---
 \def\@makeschapterhead#1{%
-    \vspace*{15\p@}%
-    {\parindent \z@ \raggedright % No indent, ragged right
-    \normalfont
-    \center
-    \interlinepenalty\@M
-    \hspace{\myindent}% Indent the title to align with numbered chapters' titles
-    \Large \bfseries  #1\par\nobreak % Unnumbered chapter title
-    \vskip 20\p@
-    }}
-
-% --- Table of Contents Numbering ---
-% Add period after numbers in ToC/LoF/LoT
-\let \savenumberline \numberline
-\def \numberline#1{\savenumberline{#1.}}
+    \vspace*{50pt} % Space before the chapter title (adjust as needed)
+    {%
+        \parindent \z@ % Ensure no indentation for the heading block
+        \centering     % Center the title
+        \normalfont    % Reset font settings
+        \Large         % Set font size to Large
+        \bfseries      % Set font weight to bold
+        #1\par         % Print ONLY the chapter title (#1) and end the paragraph
+        \nobreak       % Prevent a page break immediately after the title
+        \vspace*{40pt} % Space after the chapter title (adjust as needed)
+    }
+}
 
 \makeatother % Restore @ symbol behavior
 
 \makeatletter
 % Redefine \l@chapter to add dot leaders, mimicking tocloft's effect
 \renewcommand*\l@chapter[2]{%
-  \ifnum \c@tocdepth >\m@ne % Check ToC depth
-    \addpenalty{-\@highpenalty}%
-    \vskip 1.0em \@plus\p@ % Space above entry
-    \setlength\@tempdima{1.5em}% Default space for number in book/report class
-    \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \bfseries % Make chapter title bold
-      \advance\leftskip\@tempdima
-      \hskip -\leftskip
-      {#1}% Chapter number and title text
-      \nobreak
-      % --- This is the part that adds the dots ---
-      \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
-      % --- End of dot part ---
-      \nobreak
-      \hb@xt@\@pnumwidth{\hss #2}% Page number
-      \par
-      \penalty\@highpenalty
-    \endgroup
-  \fi}
+    \ifnum
+        \c@tocdepth >\m@ne % Check ToC depth
+        \addpenalty{-\@highpenalty}%
+        \vskip 1.0em \@plus\p@ % Space above entry
+        \setlength\@tempdima{1.5em}% Default space for number in book/report class
+        \begingroup
+        \parindent \z@ \rightskip \@pnumwidth
+        \parfillskip -\@pnumwidth
+        \leavevmode \bfseries % Make chapter title bold
+        \advance\leftskip\@tempdima
+        \hskip -\leftskip
+        {#1}% Chapter number and title text
+        \nobreak
+        % --- This is the part that adds the dots ---
+        \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+        % --- End of dot part ---
+        \nobreak
+        \hb@xt@\@pnumwidth{\hss #2}% Page number
+        \par
+        \penalty\@highpenalty
+        \endgroup
+    \fi}
 \makeatother
 
 % --- REMOVED FROM HERE ---
