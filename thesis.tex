@@ -24,14 +24,15 @@
 \usepackage{setspace}
 \usepackage{times}
 %%%%%%%%%%%%%%%%%%%% languages %%%%%%%%%%%
-\usepackage[utf8]{inputenc}
-\usepackage[english,ukrainian]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{DejaVu Sans Mono}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{xcolor}
 \usepackage[unicode]{hyperref}
 \hypersetup{colorlinks=true}
 %%%%%%%%%%%%%%%
-\usepackage[left=30mm, right=15mm, top=20mm, bottom=20mm]{geometry}
+\usepackage[left=26mm, right=15mm, top=20mm, bottom=20mm]{geometry}
 \tolerance=9000
 %\textwidth=165mm
 %\textheight=250mm
@@ -138,39 +139,10 @@
 \lstset{prebreak=\raisebox{-2ex}[0ex][0ex]{\ensuremath{\hookleftarrow}}}
 \lstset{breaklines=true}
 \captionsetup[lstlisting]{font=large}
-%%%%%%%%%%%%%% END LISTING %%%%%%%%%%%%%%%
+
 \begin{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%% вибір титульної сторінки %%%%%%
-%
-% Для правильного оформлення роботи 
-% треба вибрати титульну сторінку. 
-%
-% Для студентів 4 курсу треба 
-% прибрати знак відсотку (%)
-% перед командою \input{titlepage-BACHELOR} 
-% при цьому перед іншими двома командами 
-% мають стояти знаки відсотку (%).
-% 
-% Для студентів 6 курсу ОПП треба 
-% прибрати знак відсотку (%)
-% перед командою \input{titlepage-OPP} 
-% при цьому перед іншими двома командами 
-% мають стояти знаки відсотку (%).
-% 
-% Для студентів 6 курсу ОНП треба 
-% прибрати знак відсотку (%)
-% перед командою \input{titlepage-ONP} 
-% при цьому перед іншими двома командами 
-% мають стояти знаки відсотку (%).
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\input{titlepage-BACHELOR}
-
-%\input{titlepage-OPP}
-
-%\input{titlepage-ONP}
+\input{titlepage-OPP}
 
 %%%% кінець вибору титульної сторінки %%%%%%
 
@@ -191,7 +163,6 @@
 \input{conclusions}
 
 \input{bibliography}
-
 
 \end{document}
 
