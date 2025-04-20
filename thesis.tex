@@ -30,8 +30,13 @@
 \setmonofont{DejaVu Sans Mono}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{xcolor}
-\usepackage[unicode]{hyperref}
-\hypersetup{colorlinks=true}
+\usepackage[
+    unicode=true,     % Enable unicode support
+    colorlinks=true,  % Enable link coloring
+    linkcolor=black,  % Set internal links (like ToC entries) to black
+    urlcolor=black,    % Optional: Keep URLs blue (or set to black)
+    citecolor=green   % Optional: Keep citations green (or set to black)
+]{hyperref}           % Load hyperref (usually last or near last)
 %%%%%%%%%%%%%%%
 \usepackage[left=24mm, right=15mm, top=20mm, bottom=20mm]{geometry}
 \tolerance=9000
@@ -143,20 +148,23 @@
 
 \begin{document}
 
-%\input{titlepage-OPP}
-
-%%%% кінець вибору титульної сторінки %%%%%%
+\input{titlepage-OPP}
 
 \refstepcounter{page}
 
-%\input{abstracts}
+\input{abstracts}
+
+\renewcommand{\contentsname}{ЗМІСТ}
+\renewcommand{\cfttoctitlefont}{\centering\Large\bfseries}
+\renewcommand{\aftertoctitle}{\\[1.5em]}
+
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\tableofcontents
 
 \input{definitions}
 
-%\tableofcontents
-%
-%\input{intro}
-%
+\input{intro}
+
 %\input{chap-1}
 %
 %\input{chap-2}

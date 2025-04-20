@@ -21,7 +21,7 @@
 
 % --- Hyperref Setup ---
 % Note: hyperref should ideally be loaded late in the main .tex preamble
-\hypersetup{linkcolor=darkblue, urlcolor=darkred, citecolor=darkgreen}
+%\hypersetup{linkcolor=darkblue, urlcolor=darkred, citecolor=darkgreen}
 
 % --- List Customization (using enumitem) ---
 \setlist[enumerate,1]{label={\upshape\arabic*.}, ref={\upshape\arabic*}, leftmargin=5ex, labelwidth=5ex, labelsep=0ex, topsep=1ex, listparindent=1.5ex, itemsep=0.1ex, parsep=0.1ex, align=left}
@@ -109,8 +109,19 @@
 {\normalfont\normalsize\bfseries}}
 
 % --- Chapter Heading Customization ---
+\setlength{\parindent}{3.7em}
+\setstretch{1.35}
 \newlength{\myindent}
 \setlength{\myindent}{\parindent} % Store current parindent
+
+\setlist[itemize,1]{
+    leftmargin=3.7em,    % Adjust the main indent (e.g., 2em, 1cm, *)
+    labelsep=1em,    % Adjust space after bullet
+    itemindent=0pt,    % No hanging indent for item text (usually desired)
+    labelindent=0pt,    % Bullet starts at the leftmargin
+    % listparindent=\parindent % Indent paragraphs within items like normal text
+    label=\raisebox{-0.1ex}{\scalebox{1.2}{\textbf{\textbullet}}}
+}
 
 \renewcommand\chapter{%
     \if@openright\clearpage\else\clearpage\fi
@@ -173,10 +184,11 @@
     \vspace*{15\p@}%
     {\parindent \z@ \raggedright % No indent, ragged right
     \normalfont
+    \center
     \interlinepenalty\@M
     \hspace{\myindent}% Indent the title to align with numbered chapters' titles
-    \huge \bfseries  #1\par\nobreak % Unnumbered chapter title
-    \vskip 15\p@
+    \Large \bfseries  #1\par\nobreak % Unnumbered chapter title
+    \vskip 20\p@
     }}
 
 % --- Table of Contents Numbering ---
@@ -185,6 +197,32 @@
 \def \numberline#1{\savenumberline{#1.}}
 
 \makeatother % Restore @ symbol behavior
+
+\makeatletter
+% Redefine \l@chapter to add dot leaders, mimicking tocloft's effect
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne % Check ToC depth
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@ % Space above entry
+    \setlength\@tempdima{1.5em}% Default space for number in book/report class
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries % Make chapter title bold
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      {#1}% Chapter number and title text
+      \nobreak
+      % --- This is the part that adds the dots ---
+      \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+      % --- End of dot part ---
+      \nobreak
+      \hb@xt@\@pnumwidth{\hss #2}% Page number
+      \par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+\makeatother
 
 % --- REMOVED FROM HERE ---
 % \addto\captionsukrainian{\renewcommand{\bibname}{Список використаних джерел}}
