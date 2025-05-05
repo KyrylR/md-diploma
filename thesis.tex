@@ -3,42 +3,41 @@
 %Dept. of Applied Mathematics,
 %V.N. Karazin Kharkiv National University, Kharkiv, Ukraine
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[14pt,a4paper,oneside]{book}
+\documentclass[14pt,a4paper,oneside]{extbook}
 \usepackage{cmap}
 \usepackage{amsthm,amsfonts,mathtools,amscd,amssymb, mathrsfs}
 \usepackage{latexsym}
 \usepackage{euscript}
-\usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{bbm}
 %\usepackage{rotating}
 \usepackage{graphicx}
 %\usepackage{epstopdf}
 \usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta}
 \usepackage{array}
-%\usepackage{pgfplots}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{cite}
 \usepackage{listings}
 \usepackage{setspace}
-\usepackage{times}
 \usepackage{microtype}
 %%%%%%%%%%%%%%%%%%%% languages %%%%%%%%%%%
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
 \setmonofont{DejaVu Sans Mono}
+\renewcommand{\figurename}{Рисунок}
+\renewcommand{\tablename}{Таблиця}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{xcolor}
 \usepackage[
     unicode=true,     % Enable unicode support
     colorlinks=true,  % Enable link coloring
     linkcolor=black,  % Set internal links (like ToC entries) to black
     urlcolor=black,    % Optional: Keep URLs blue (or set to black)
-    citecolor=green   % Optional: Keep citations green (or set to black)
+    citecolor=black   % Changed from green to black
 ]{hyperref}           % Load hyperref (usually last or near last)
 %%%%%%%%%%%%%%%
-\usepackage[left=24mm, right=15mm, top=20mm, bottom=20mm]{geometry}
+\usepackage[left=25mm, right=15mm, top=20mm, bottom=20mm]{geometry}
 \tolerance=9000
 %\textwidth=165mm
 %\textheight=250mm
@@ -57,12 +56,12 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
-\fancyfoot[C]{\thepage}
+\fancyhead[R]{\thepage}
 \fancypagestyle{plain}{
   \fancyhf{}
   \renewcommand{\headrulewidth}{0pt}
   \renewcommand{\footrulewidth}{0pt}
-  \fancyfoot[C]{\thepage}
+  \fancyhead[R]{\thepage}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{ {pictures/} }
@@ -147,6 +146,7 @@
 \captionsetup[lstlisting]{font=large}
 
 \begin{document}
+\sloppy
 
 \input{titlepage-OPP}
 
@@ -155,10 +155,9 @@
 \input{abstracts}
 
 \renewcommand{\contentsname}{ЗМІСТ}
-\renewcommand{\cfttoctitlefont}{\centering\Large\bfseries}
+\renewcommand{\cfttoctitlefont}{\centering\bfseries\MakeUppercase}
 \renewcommand{\aftertoctitle}{\\[1.5em]}
 
-\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
 \tableofcontents
 
 \input{definitions}
@@ -167,13 +166,16 @@
 
 \input{chap-1}
 
-%\input{chap-2}
-%
-%\input{chap-3}
-%
-%\input{conclusions}
-%
-%\input{bibliography}
+\input{chap-2}
+
+\input{chap-3}
+
+\input{chap-4}
+
+\input{conclusions}
+
+\renewcommand{\bibname}{ПЕРЕЛІК ДЖЕРЕЛ ПОСИЛАННЯ}
+\input{bibliography}
 
 \end{document}
 

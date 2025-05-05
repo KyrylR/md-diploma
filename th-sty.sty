@@ -11,6 +11,8 @@
 \newcommand{\medium}{\fontsize{12}{14}\selectfont}
 \newcommand{\mediuml}{\fontsize{14}{16}\selectfont}
 
+\renewcommand{\figurename}{Рисунок}
+
 % --- Colors ---
 \definecolor{darkgreen}{HTML}{008000}
 \definecolor{darkblue}{HTML}{000080}
@@ -24,9 +26,47 @@
 %\hypersetup{linkcolor=darkblue, urlcolor=darkred, citecolor=darkgreen}
 
 % --- List Customization (using enumitem) ---
-\setlist[enumerate,1]{label={\upshape\arabic*.}, ref={\upshape\arabic*}, leftmargin=5ex, labelwidth=5ex, labelsep=0ex, topsep=1ex, listparindent=1.5ex, itemsep=0.1ex, parsep=0.1ex, align=left}
-\setlist[enumerate,2]{label={\upshape(\roman*)}, ref={\upshape(\roman*)}, leftmargin=4ex, labelwidth=4ex, labelsep=0ex, topsep=1ex, listparindent=1.5ex, itemsep=0.1ex, parsep=0.1ex, align=left}
-\setlist[enumerate,3]{label={\upshape(\alph*)}, ref={\upshape(\alph*)}, leftmargin=5ex, labelwidth=5ex, labelsep=0ex, topsep=1ex, listparindent=1.5ex, itemsep=0.1ex, parsep=0.1ex, align=left}
+\setlist[enumerate,1]{
+    label={\upshape\arabic*.},
+    ref={\upshape\arabic*},
+    leftmargin=1.27cm,
+    labelwidth=5ex,
+    labelsep=1em,
+    topsep=1ex,
+    listparindent=0pt,
+    itemsep=0.1ex,
+    parsep=0.1ex
+}
+\setlist[enumerate,2]{
+    label={\upshape(\roman*)},
+    ref={\upshape(\roman*)},
+    leftmargin=4ex,
+    labelwidth=4ex,
+    labelsep=0ex,
+    topsep=1ex,
+    listparindent=1.5ex,
+    itemsep=0.1ex,
+    parsep=0.1ex
+}
+\setlist[enumerate,3]{
+    label={\upshape(\alph*)},
+    ref={\upshape(\alph*)},
+    leftmargin=5ex,
+    labelwidth=5ex,
+    labelsep=0ex,
+    topsep=1ex,
+    listparindent=1.5ex,
+    itemsep=0.1ex,
+    parsep=0.1ex
+}
+
+\setlist[itemize,1]{
+    leftmargin=1.27cm,   % Adjust the main indent (e.g., 2em, 1cm, *)
+    labelsep=1em,    % Adjust space after bullet
+    itemindent=0pt,    % No hanging indent for item text (usually desired)
+    labelindent=0pt,    % Bullet starts at the leftmargin
+    label=\raisebox{-0.1ex}{\scalebox{1.2}{\textbf{\textbullet}}}
+}
 
 % --- Numbering ---
 \numberwithin{section}{chapter}
@@ -84,17 +124,17 @@
 % --- Sectioning Command Formatting ---
 \makeatletter
 % Add period after section numbers
-\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\quad}
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\quad}
 
 % Redefine section/subsection/etc. appearance
 \renewcommand\section{\@startsection {section}{1}{\parindent}%
 {3.5ex \@plus 1ex \@minus .2ex}%
 {2.3ex \@plus.2ex}%
-{\normalfont\Large\bfseries}}
+{\normalfont\normalsize\bfseries}}
 \renewcommand\subsection{\@startsection{subsection}{2}{\parindent}%
 {3.25ex\@plus 1ex \@minus .2ex}%
 {1.5ex \@plus .2ex}%
-{\normalfont\large\bfseries}}
+{\normalfont\normalsize\bfseries}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\parindent}%
 {3.25ex\@plus 1ex \@minus .2ex}%
 {-1.5ex \@plus .2ex}% % Note: Negative space before heading if not on new line
@@ -109,19 +149,10 @@
 {\normalfont\normalsize\bfseries}}
 
 % --- Chapter Heading Customization ---
-\setlength{\parindent}{3.7em}
-\setstretch{1.35}
+\setlength{\parindent}{1.27cm}
+%\setstretch{1.35} % Removed, handled by \onehalfspacing in main .tex
 \newlength{\myindent}
 \setlength{\myindent}{\parindent} % Store current parindent
-
-\setlist[itemize,1]{
-    leftmargin=3.7em,    % Adjust the main indent (e.g., 2em, 1cm, *)
-    labelsep=1em,    % Adjust space after bullet
-    itemindent=0pt,    % No hanging indent for item text (usually desired)
-    labelindent=0pt,    % Bullet starts at the leftmargin
-% listparindent=\parindent % Indent paragraphs within items like normal text
-    label=\raisebox{-0.1ex}{\scalebox{1.2}{\textbf{\textbullet}}}
-}
 
 % --- Keep the original \chapter and \@chapter definitions ---
 % --- as they handle numbering/ToC correctly ---
@@ -141,7 +172,7 @@
                         \addcontentsline{toc}{chapter}%
                         {\protect\numberline{\thechapter}#2}%
 \else
-                        \addcontentsline{toc}{chapter}{#1}% % For frontmatter chapters
+                        \addcontentsline{toc}{chapter}{#1}% For frontmatter chapters
 \fi
 \else
 \addcontentsline{toc}{chapter}{#1}%
@@ -159,16 +190,16 @@
 % --- MODIFIED definition for NUMBERED chapter headings ---
 % --- Removes "Chapter X", centers title, uses Large/Bold ---
 \def\@makechapterhead#1{%
-    \vspace*{50pt} % Space before the chapter title (adjust as needed)
+    \vspace*{15pt} % Space before the chapter title (adjust as needed)
     {%
         \parindent \z@ % Ensure no indentation for the heading block
         \centering     % Center the title
         \normalfont    % Reset font settings
-        \Large         % Set font size to Large
+        \normalsize    % Set font size to normalsize (14pt)
         \bfseries      % Set font weight to bold
         #1\par         % Print ONLY the chapter title (#1) and end the paragraph
         \nobreak       % Prevent a page break immediately after the title
-        \vspace*{40pt} % Space after the chapter title (adjust as needed)
+        \vspace*{15pt} % Space after the chapter title (adjust as needed)
     }
 }
 
@@ -184,20 +215,22 @@
 % --- MODIFIED definition for STARRED chapter headings ---
 % --- Makes it visually identical to the modified \@makechapterhead ---
 \def\@makeschapterhead#1{%
-    \vspace*{50pt} % Space before the chapter title (adjust as needed)
+    \vspace*{15pt} % Space before the chapter title (adjust as needed)
     {%
         \parindent \z@ % Ensure no indentation for the heading block
         \centering     % Center the title
         \normalfont    % Reset font settings
-        \Large         % Set font size to Large
+        \normalsize    % Set font size to normalsize (14pt)
         \bfseries      % Set font weight to bold
         #1\par         % Print ONLY the chapter title (#1) and end the paragraph
         \nobreak       % Prevent a page break immediately after the title
-        \vspace*{40pt} % Space after the chapter title (adjust as needed)
+        \vspace*{15pt} % Space after the chapter title (adjust as needed)
     }
 }
 
 \makeatother % Restore @ symbol behavior
+
+\newcommand{\s}{\texttt{"}}
 
 \makeatletter
 % Redefine \l@chapter to add dot leaders, mimicking tocloft's effect
