@@ -137,7 +137,7 @@
 {\normalfont\normalsize\bfseries}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\parindent}%
 {3.25ex\@plus 1ex \@minus .2ex}%
-{-1.5ex \@plus .2ex}% % Note: Negative space before heading if not on new line
+{1.5ex \@plus .2ex}%
 {\normalfont\normalsize\bfseries}}
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\parindent}%
 {3.25ex \@plus1ex \@minus.2ex}%
@@ -197,10 +197,10 @@
         \normalfont    % Reset font settings
         \normalsize    % Set font size to normalsize (14pt)
         \bfseries      % Set font weight to bold
-        #1\par         % Print ONLY the chapter title (#1) and end the paragraph
+        \thechapter\enspace #1\par % Print chapter number, enspace, THEN the chapter title
         \nobreak       % Prevent a page break immediately after the title
         \vspace*{15pt} % Space after the chapter title (adjust as needed)
-    }
+    }%
 }
 
 % --- Keep the original \@schapter definition ---
